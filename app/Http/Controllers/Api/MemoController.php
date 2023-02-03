@@ -74,6 +74,8 @@ class MemoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $memo = Memo::findOrFail($id);
+        $memo->delete();
+        return response()->noContent();
     }
 }
