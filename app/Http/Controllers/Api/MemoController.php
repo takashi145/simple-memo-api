@@ -29,7 +29,13 @@ class MemoController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $memo = Memo::create([
+            'user_id' => Auth::id(),
+            'title' => $request->input('title'),
+            'body' => $request->input('body'),
+        ]);
+
+        return new MemoResource($memo);
     }
 
     /**
@@ -52,7 +58,12 @@ class MemoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $memo = Memo::findOrFail($id);
+        $memo->title = $request->title;
+        $memo->body = $request->body;
+        $memo->save();
+
+        return new MemoDetailResource($memo);
     }
 
     /**
