@@ -18,6 +18,7 @@ class MemoDetailResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'body' => $this->body,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

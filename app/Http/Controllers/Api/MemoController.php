@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreMemoRequest;
 use App\Http\Resources\MemoDetailResource;
 use App\Http\Resources\MemoResource;
 use App\Models\Memo;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class MemoController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Memo::class, 'memo');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,10 +29,10 @@ class MemoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreMemoRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreMemoRequest $request)
     {
         $memo = Memo::create([
             'user_id' => Auth::id(),
@@ -44,21 +49,20 @@ class MemoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Memo $memo)
     {
-        return new MemoDetailResource(Memo::findOrFail($id));
+        return new MemoDetailResource($memo);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreMemoRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreMemoRequest $request, Memo $memo)
     {
-        $memo = Memo::findOrFail($id);
         $memo->title = $request->title;
         $memo->body = $request->body;
         $memo->save();
@@ -72,9 +76,8 @@ class MemoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Memo $memo)
     {
-        $memo = Memo::findOrFail($id);
         $memo->delete();
         return response()->noContent();
     }

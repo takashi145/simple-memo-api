@@ -17,6 +17,7 @@ class MemoResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

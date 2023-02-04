@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Memo;
+use App\Policies\MemoPolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -14,6 +16,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        // 'App\Models\Memo' => 'App\Policies\MemoPolicy',
+        Memo::class => MemoPolicy::class
     ];
 
     /**
